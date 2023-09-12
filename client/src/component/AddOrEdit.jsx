@@ -1,5 +1,6 @@
 
-function Add() {
+
+function AddOrEdit() {
   return (
     <div>
       Add
@@ -7,4 +8,4 @@ function Add() {
   );
 }
 
-export default Add;
+export default AddOrEdit;

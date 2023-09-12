@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import Home from './component/Home'
 import About from './component/About'
-import Add from './component/Add'
+import AddOrEdit from './component/AddOrEdit'
 import './css/App.css'
 import { Navigate, NavLink } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ function App() {
           </div>
           <div id="navbar" className="collapse navbar-collapse">
             <ul className="nav navbar-nav">
-              <li className="active">
+              <li>
                 <NavLink to='/home'>主页</NavLink>
               </li>
               <li>
@@ -41,7 +41,7 @@ function App() {
         <Routes>
           <Route path='/home' element={<Home />} />
           <Route path='/about' element={<About />} />
-          <Route path='/add' element={<Add />} />
+          <Route path='/add' element={<AddOrEdit />} />
           <Route path='/' element={<Navigate replace to='/home' />} />
         </Routes>
       </div>

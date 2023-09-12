@@ -29,7 +29,7 @@ function Home() {
 
   return (
     <>
-      <h1>学生列表</h1>
+      <h1 className="page-header">学生列表</h1>
       <input type="search" placeholder="搜索" className="form-control" value={search} onChange={handleChange} />
       <table className="table table-bordered table-hover">
         <thead>
