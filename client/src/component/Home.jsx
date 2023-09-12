@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getStuListApi } from "../api/stuApi";
 import Alert from "./Alert";
-import { useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 
 function Home() {
@@ -14,7 +14,7 @@ function Home() {
         <td>{item.name}</td>
         <td>{item.age}</td>
         <td>{item.phone}</td>
-        <td>详情</td>
+        <td><NavLink to={`/detail/${item.id}`}>详情</NavLink> </td>
       </tr>
     )
   })

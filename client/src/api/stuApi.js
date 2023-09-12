@@ -9,10 +9,19 @@ export function getStuListApi() {
   })
 }
 
+//添加学生信息 
 export function addStuInfoApi(data) {
   return request({
     url: '/students',
     method: 'POST',
     data
+  })
+}
+
+// 根据id获取学生信息
+export function getStuByIdApi(id) {
+  return request({
+    url: `/students/${id}`,
+    method: 'GET'
   })
 }
