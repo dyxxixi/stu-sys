@@ -1,5 +1,6 @@
 import { useState } from "react";
-
+import { addStuInfoApi } from "../api/stuApi";
+import { useNavigate } from "react-router-dom";
 /***
  * 该组件有添加学生和修改学生两个功能
  */
@@ -15,6 +16,8 @@ function AddOrEdit() {
     "profile": "",
   })
 
+  const navigate = useNavigate()
+  
   /**
    * 根据对应的key来更新信息
    * @param {*} newInfo 
@@ -29,6 +32,8 @@ function AddOrEdit() {
     setStuInfo(newStuInfo)
   }
 
+
+
   function handleSubmit(e) {
     e.preventDefault()
     for (const key in stuInfo) {
@@ -39,7 +44,9 @@ function AddOrEdit() {
     }
 
     // 接下来发送请求
-    console.log(stuInfo);
+    addStuInfoApi(stuInfo)
+    // 跳转到主页
+    navigate('/home')
   }
 
   return (
