@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { getStuListApi } from "../api/stuApi";
+import Alert from "./Alert";
+import { useLocation } from "react-router-dom";
 
 
 function Home() {
   const [stuList, setStuList] = useState([])
   const [search, setSearch] = useState([])
+  const [alert, setAlert] = useState(null)
   const content = stuList.map((item) => {
     return (
       <tr key={item.id}>
@@ -16,11 +19,20 @@ function Home() {
     )
   })
 
+  const location = useLocation()
+
   useEffect(() => {
     getStuListApi().then(({ data }) => {
       setStuList(data)
     })
   }, [])
+
+  // 再来处理一个副作用，用于获取跳转到 home 组件时传递的 state 数据
+  useEffect(() => {
+    if (location.state) {
+      setAlert(location.state)
+    }
+  }, [location])
 
   function handleChange(e) {
     setSearch(e.target.value)
@@ -29,6 +41,8 @@ function Home() {
 
   return (
     <>
+      {/* 判断是否显示alert */}
+      {alert ? <Alert {...alert} /> : null}
       <h1 className="page-header">学生列表</h1>
       <input type="search" placeholder="搜索" className="form-control" value={search} onChange={handleChange} />
       <table className="table table-bordered table-hover">

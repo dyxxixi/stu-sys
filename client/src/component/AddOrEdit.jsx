@@ -17,7 +17,7 @@ function AddOrEdit() {
   })
 
   const navigate = useNavigate()
-  
+
   /**
    * 根据对应的key来更新信息
    * @param {*} newInfo 
@@ -44,9 +44,15 @@ function AddOrEdit() {
     }
 
     // 接下来发送请求
-    addStuInfoApi(stuInfo)
-    // 跳转到主页
-    navigate('/home')
+    addStuInfoApi(stuInfo).then(() => {
+      // 跳转到主页
+      navigate('/home', {
+        state: {
+          type: 'success',
+          message: '添加用户成功！'
+        }
+      })
+    })
   }
 
   return (
