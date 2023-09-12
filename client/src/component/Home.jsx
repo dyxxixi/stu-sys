@@ -11,11 +11,7 @@ function Home() {
         <td>{item.name}</td>
         <td>{item.age}</td>
         <td>{item.phone}</td>
-        <td>{item.email}</td>
-        <td>{item.education}</td>
-        <td>{item.graduationschool}</td>
-        <td>{item.profession}</td>
-        <td>{item.profile}</td>
+        <td>详情</td>
       </tr>
     )
   })
@@ -33,18 +29,15 @@ function Home() {
 
   return (
     <>
-      <input type="search" className="form-control" value={search} onChange={handleChange} />
+      <h1>学生列表</h1>
+      <input type="search" placeholder="搜索" className="form-control" value={search} onChange={handleChange} />
       <table className="table table-bordered table-hover">
         <thead>
           <tr>
             <th>姓名</th>
             <th>年龄</th>
-            <th>电话</th>
-            <th>邮箱</th>
-            <th>学历</th>
-            <th>毕业院校</th>
-            <th>职业</th>
-            <th>简介</th>
+            <th>联系方式</th>
+            <th>操作</th>
           </tr>
         </thead>
         <tbody>
