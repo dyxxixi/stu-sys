@@ -27,3 +27,5 @@ request.interceptors.response.use((response) => {
   //对错误进行一个处理
   return Promise.reject(err)
 })
+
+export default request
