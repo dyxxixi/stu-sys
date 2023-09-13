@@ -5,19 +5,10 @@ import { NavLink, useLocation } from "react-router-dom";
 
 
 function Home() {
-  const [stuList, setStuList] = useState([])
-  const [search, setSearch] = useState([])
+  const [stuList, setStuList] = useState([]) //存储的所有用户列表
+  const [searchStuList, setSearchStuList] = useState([]) //搜索后的用户列表
+  const [searchItem, setSearchItem] = useState('')
   const [alert, setAlert] = useState(null)
-  const content = stuList.map((item) => {
-    return (
-      <tr key={item.id}>
-        <td>{item.name}</td>
-        <td>{item.age}</td>
-        <td>{item.phone}</td>
-        <td><NavLink to={`/detail/${item.id}`}>详情</NavLink> </td>
-      </tr>
-    )
-  })
 
   const location = useLocation()
 
@@ -34,17 +25,36 @@ function Home() {
     }
   }, [location])
 
-  function handleChange(e) {
-    setSearch(e.target.value)
+  function handleChange(name) {
+    //用户要搜的内容就存储在了searchItem里
+    setSearchItem(name)
+    // 对stuList进行过滤
+    const arr = stuList.filter((item) => {
+      return item.name.match(name)
+    })
+    // 存入搜索后的学生列表
+    setSearchStuList(arr)
   }
 
+  const list = searchItem ? searchStuList : stuList
+
+  const content = list.map((item) => {
+    return (
+      <tr key={item.id}>
+        <td>{item.name}</td>
+        <td>{item.age}</td>
+        <td>{item.phone}</td>
+        <td><NavLink to={`/detail/${item.id}`}>详情</NavLink></td>
+      </tr>
+    )
+  })
 
   return (
     <>
       {/* 判断是否显示alert */}
       {alert ? <Alert {...alert} /> : null}
       <h1 className="page-header">学生列表</h1>
-      <input type="search" placeholder="搜索" className="form-control" value={search} onChange={handleChange} />
+      <input type="search" placeholder="搜索" className="form-control" value={searchItem} onChange={(e) => { handleChange(e.target.value) }} />
       <table className="table table-bordered table-hover">
         <thead>
           <tr>
