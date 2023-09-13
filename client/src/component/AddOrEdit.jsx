@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { addStuInfoApi } from "../api/stuApi";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { addStuInfoApi, getStuByIdApi, updateStuByIdApi } from "../api/stuApi";
+import { useNavigate, useParams } from "react-router-dom";
 /***
  * 该组件有添加学生和修改学生两个功能
  */
@@ -17,6 +17,19 @@ function AddOrEdit() {
   })
 
   const navigate = useNavigate()
+
+  const { id } = useParams()
+
+
+  //根据id获得学生详细信息
+  useEffect(() => {
+    if (id) {
+      getStuByIdApi(id).then(({ data }) => {
+        setStuInfo(data)
+      })
+    }
+  }, [id])
+
 
   /**
    * 根据对应的key来更新信息
@@ -43,21 +56,38 @@ function AddOrEdit() {
       }
     }
 
-    // 接下来发送请求
-    addStuInfoApi(stuInfo).then(() => {
-      // 跳转到主页
-      navigate('/home', {
-        state: {
-          type: 'success',
-          message: '添加用户成功！'
-        }
+    if (id) {
+      // 修改学生
+      // 通过id更新对应学生信息
+      updateStuByIdApi(id, stuInfo).then(() => {
+        // 跳转到主页
+        navigate('/home', {
+          state: {
+            type: 'success',
+            message: '修改用户成功！'
+          }
+        })
       })
-    })
+    } else {
+      // 添加学生
+      // 接下来发送请求
+      addStuInfoApi(stuInfo).then(() => {
+        // 跳转到主页
+        navigate('/home', {
+          state: {
+            type: 'success',
+            message: '添加用户成功！'
+          }
+        })
+      })
+    }
+
+
   }
 
   return (
     <div className="container">
-      <h1 className="page-header">添加用户</h1>
+      <h1 className="page-header">{id ? '修改学生' : '添加学生'}</h1>
       <form onSubmit={handleSubmit}>
         <div className="well">
           <div className="form-group">
@@ -100,7 +130,7 @@ function AddOrEdit() {
             <label htmlFor="stuProfile">个人简介</label>
             <textarea className="form-control" id="stuProfile" rows='10' placeholder="请简单的介绍一下你自己，例如兴趣、爱好等信息" value={stuInfo.profile} onChange={(e) => { updateStuInfo(e.target.value, 'profile') }} />
           </div>
-          <button type="submit" className="btn btn-primary">确认添加</button>
+          <button type="submit" className="btn btn-primary">{id ? '确认修改' : '确认添加'}</button>
         </div>
       </form>
     </div>

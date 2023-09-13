@@ -25,3 +25,20 @@ export function getStuByIdApi(id) {
     method: 'GET'
   })
 }
+
+// 根据id删除学生信息
+export function delStuByIdApi(id) {
+  return request({
+    url: `/students/${id}`,
+    method: "DELETE"
+  })
+}
+
+// 根据 id 更新学生信息
+export function updateStuByIdApi(id, data) {
+  return request({
+    url: `/students/${id}`,
+    method: 'PATCH',
+    data
+  })
+}

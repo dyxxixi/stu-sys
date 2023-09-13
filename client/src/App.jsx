@@ -44,6 +44,7 @@ function App() {
           <Route path='/about' element={<About />} />
           <Route path='/add' element={<AddOrEdit />} />
           <Route path='/detail/:id' element={<Detail />} />
+          <Route path='/edit/:id' element={<AddOrEdit />} />
           <Route path='/' element={<Navigate replace to='/home' />} />
         </Routes>
       </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getStuByIdApi } from "../api/stuApi";
+import { useNavigate, useParams, NavLink } from "react-router-dom";
+import { delStuByIdApi, getStuByIdApi } from "../api/stuApi";
 
 function Detail() {
   const { id } = useParams()
@@ -16,21 +16,41 @@ function Detail() {
     "profile": "",
   })
 
+  const navigate = useNavigate()
+
   //根据id获得学生详细信息
   useEffect(() => {
     getStuByIdApi(id).then(({ data }) => {
       setStuInfo(data)
     })
-  })
+  }, [id])
+
+  // 根据id删除学生信息
+  function handleDel() {
+    // 给出确认窗口
+    if (window.confirm('你确定要删除此用户？')) {
+      delStuByIdApi(id).then(() => {
+        // 跳转到主页
+        navigate('/home', {
+          state: {
+            type: 'info',
+            message: '删除用户成功！'
+          }
+        })
+      })
+    }
+  }
 
   return (
     <div className="details container">
-      <button className="btn btn-default" >返回</button>
+      <button className="btn btn-default" onClick={() => { navigate('/home') }}>返回</button>
       <h1 className="page-header">
         {stuInfo.name}
         <span className="pull-right">
-          <button className="btn btn-primary" style={{ marginRight: 10 }}>修改</button>
-          <button className="btn btn-danger" >删除</button>
+          <NavLink to={`/edit/${id}`}>
+            <button className="btn btn-primary" style={{ marginRight: 10 }}>修改</button>
+          </NavLink>
+          <button className="btn btn-danger" onClick={handleDel}>删除</button>
         </span>
       </h1>
       {/* 第一组 */}
