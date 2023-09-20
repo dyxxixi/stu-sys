@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, NavLink } from "react-router-dom";
-import { delStuByIdApi, getStuByIdApi } from "../api/stuApi";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteStuAsync } from "../redux/stuSlice";
 
 function Detail() {
   const { id } = useParams()
+  const { stuList } = useSelector(state => state.stu)
+  const dispatch = useDispatch()
 
   const [stuInfo, setStuInfo] = useState({
     "name": "",
@@ -20,23 +23,22 @@ function Detail() {
 
   //根据id获得学生详细信息
   useEffect(() => {
-    getStuByIdApi(id).then(({ data }) => {
-      setStuInfo(data)
-    })
-  }, [id])
+    // 现在由于所有的数据都在前端仓库 所有我们直接从前端仓库获取对应的 id 的学生数据
+    const curStu = stuList.filter(stu => stu.id === ~~id)
+    setStuInfo(curStu[0])
+  }, [id, stuList])
 
   // 根据id删除学生信息
   function handleDel() {
     // 给出确认窗口
     if (window.confirm('你确定要删除此用户？')) {
-      delStuByIdApi(id).then(() => {
-        // 跳转到主页
-        navigate('/home', {
-          state: {
-            type: 'info',
-            message: '删除用户成功！'
-          }
-        })
+      // 派发一个action 仓库来发异步请求来进行删除 然后再更新自己的数据
+      dispatch(deleteStuAsync(id))
+      navigate('/home', {
+        state: {
+          type: 'info',
+          message: '学生删除成功！'
+        }
       })
     }
   }

@@ -1,22 +1,25 @@
 import { useState, useEffect } from "react";
-import { getStuListApi } from "../api/stuApi";
 import Alert from "./Alert";
 import { NavLink, useLocation } from "react-router-dom";
-
+import { useSelector, useDispatch } from "react-redux";
+import { getStuListAsync } from "../redux/stuSlice";
 
 function Home() {
-  const [stuList, setStuList] = useState([]) //存储的所有用户列表
+  const { stuList } = useSelector(state => state.stu) //从仓库中获取数据
   const [searchStuList, setSearchStuList] = useState([]) //搜索后的用户列表
   const [searchItem, setSearchItem] = useState('')
   const [alert, setAlert] = useState(null)
 
   const location = useLocation()
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    getStuListApi().then(({ data }) => {
-      setStuList(data)
-    })
-  }, [])
+    if (!stuList.length) {
+      //如果没有数据 就派发一个action到仓库 
+      //仓库发送请求获取数据后填充到前端仓库
+      dispatch(getStuListAsync())
+    }
+  }, [stuList, dispatch]) 
 
   // 再来处理一个副作用，用于获取跳转到 home 组件时传递的 state 数据
   useEffect(() => {

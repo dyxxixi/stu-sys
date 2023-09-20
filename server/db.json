@@ -1,39 +1,6 @@
 {
   "students": [
     {
-      "name": "abc",
-      "age": 47,
-      "phone": "13112341234",
-      "email": "1234567@qq.com",
-      "education": "硕士",
-      "graduationschool": "fff",
-      "profession": "前端开发工程师",
-      "profile": "大家好!",
-      "id": 2
-    },
-    {
-      "name": "bbb",
-      "age": "21",
-      "phone": "fsd",
-      "email": "fsd",
-      "education": "高职或职高",
-      "graduationschool": "fds",
-      "profession": "fdsf",
-      "profile": "sfdsf",
-      "id": 3
-    },
-    {
-      "name": "aaa",
-      "age": "111",
-      "phone": "111",
-      "email": "111",
-      "education": "本科",
-      "graduationschool": "11",
-      "profession": "11",
-      "profile": "11",
-      "id": 5
-    },
-    {
       "name": "张三",
       "age": "18",
       "phone": "1343333333",
@@ -43,6 +10,17 @@
       "profession": "前端开发工程师",
       "profile": "哈哈哈哈哈哈哈哈哈哈哈",
       "id": 6
+    },
+    {
+      "name": "abc",
+      "age": "21",
+      "phone": "fsd",
+      "email": "fs",
+      "education": "本科",
+      "graduationschool": "fds",
+      "profession": "fds",
+      "profile": "gfds",
+      "id": 7
     }
   ],
   "classes": [

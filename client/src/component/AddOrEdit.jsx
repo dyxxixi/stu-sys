@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { addStuInfoApi, getStuByIdApi, updateStuByIdApi } from "../api/stuApi";
 import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addStuAsync, editStuAsync } from "../redux/stuSlice";
 /***
  * 该组件有添加学生和修改学生两个功能
  */
@@ -16,7 +17,11 @@ function AddOrEdit() {
     "profile": "",
   })
 
+  const { stuList } = useSelector(state => state.stu)
+
+
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const { id } = useParams()
 
@@ -24,11 +29,10 @@ function AddOrEdit() {
   //根据id获得学生详细信息
   useEffect(() => {
     if (id) {
-      getStuByIdApi(id).then(({ data }) => {
-        setStuInfo(data)
-      })
+      const curStu = stuList.filter(stu => stu.id === ~~id)
+      setStuInfo(curStu[0])
     }
-  }, [id])
+  }, [id, stuList])
 
 
   /**
@@ -58,27 +62,21 @@ function AddOrEdit() {
 
     if (id) {
       // 修改学生
-      // 通过id更新对应学生信息
-      updateStuByIdApi(id, stuInfo).then(() => {
-        // 跳转到主页
-        navigate('/home', {
-          state: {
-            type: 'success',
-            message: '修改用户成功！'
-          }
-        })
+      dispatch(editStuAsync({ id, stuInfo }))
+      navigate('/home', {
+        state: {
+          type: 'success',
+          message: '修改用户成功！'
+        }
       })
     } else {
       // 添加学生
-      // 接下来发送请求
-      addStuInfoApi(stuInfo).then(() => {
-        // 跳转到主页
-        navigate('/home', {
-          state: {
-            type: 'success',
-            message: '添加用户成功！'
-          }
-        })
+      dispatch(addStuAsync(stuInfo))
+      navigate('/home', {
+        state: {
+          type: 'success',
+          message: '添加用户成功！'
+        }
       })
     }
 
